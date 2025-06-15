@@ -199,4 +199,25 @@ GUIにしたがってprojectを作成
 ![alt text](./fig/Screenshot_2025-06-13_202642.png)
 
 
+## 25/06/15
+
+**Done**
+- DSC_3189_#1~5, 3197_#1~2のlabeling 
+(4points: manubrium base, mouth, prey, tentacle base)
+- DSC_3197/3237_#1~5のframe抽出
+- dlc3.0の[Tutorial](https://youtu.be/ofFx0vTMSxE?si=hsLphcDQQz36v3cA)を見る(途中)
+- `Create training dataset`タブでラベル済みの140データからなるdatasetを作成
+- `Train Network`を実行
+
+
+前回の続きなので、トップ画面から`Load Project`を選択 > config.yamlをopen
+
+1video当たり20frames抽出する設定
+20framesに4point打つのにかかった時間: 10分弱
+
+Trainの様子
+
+
+![Training中](./Fig/Screenshot_2025-06-15_222717.png)
+
 
