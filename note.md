@@ -192,10 +192,11 @@ deeplabcut.launch_dlc()
 ```
 python -m deeplabcut
 ```
-![DeepLabCutの起動画面](./fig/Screenshot 2025-06-13 201301.png)
+![DeepLabCutの起動画面](./fig/Screenshot_2025-06-13_201301.png)
 
 GUIにしたがってprojectを作成
 
-![alt text](./fig/Screenshot 2025-06-13 202642.png)
+![alt text](./fig/Screenshot_2025-06-13_202642.png)
+
 
 
