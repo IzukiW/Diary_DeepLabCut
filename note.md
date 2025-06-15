@@ -218,6 +218,6 @@ GUIにしたがってprojectを作成
 Trainの様子
 
 
-![Training中](./Fig/Screenshot_2025-06-15_222717.png)
+![Training中](./fig/Screenshot_2025-06-15_222717.png)
 
 
