@@ -113,7 +113,7 @@ Build cuda_12.6.r12.6/compiler.34431801_0
 - GUIでlabeling(manubrium_baseだけできなかったけど...)
 
 installしたPytorch
-![PyTorch version](Screenshot_13-6-2025_1990_pytorch.org.jpeg)
+![PyTorch version](./fig/Screenshot_13-6-2025_1990_pytorch.org.jpeg)
 
 install後公式文書通りの応答が帰ってきた
 ```
