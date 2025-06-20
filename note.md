@@ -315,6 +315,6 @@ INFO:console:Labeled videos created.
 **Done**
 - New project: "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\Cladonema_starved_crop-Vlad&Genta-2025-06-20" 作成
   <br> <- 400×400でcropした動画
-- DSC_3190~DSC_3206#1~5を400×400でcrop->"Enhance Contrast"をかけて保存
+- DSC_3190~ DSC_3206#1~5を400×400でcrop->"Enhance Contrast"をかけて保存
 - DSC_3174_#1~3をlabel
 - DSC_3175/3176_#1~5をExtract frames済み
