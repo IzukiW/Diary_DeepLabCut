@@ -318,3 +318,111 @@ INFO:console:Labeled videos created.
 - DSC_3190~ DSC_3206#1~5を400×400でcrop->"Enhance Contrast"をかけて保存
 - DSC_3174_#1~3をlabel
 - DSC_3175/3176_#1~5をExtract frames済み
+
+
+## 25/06/23
+**Done**
+- DSC_3207~DSC_3219 #1~5を400×400でcrop->"Enhance Contrast"をかけて保存<br>
+  ⇒これで53videosが用意できた
+- 結果の解釈についてのお勉強(途中、別ファイルにしてtexみたいに後から挿入してもいいかも)
+
+
+
+**お勉強** <br>
+pytorchを用いた場合の"CombinedEvaluation-results.csv"の解釈について 
+
+![CombinedEvaluation-results.csv](Screenshot_2025-06-23_142033.png)
+
+<details><summary> `train mAP`や`train mAR`とは何ぞや？</summary>
+
+そもそもとして
+deeplabcutは
+
+#### Intersection over Union(IoU)
+IoUは実際に物体が存在する範囲(正解範囲)とモデルが予測した物体の範囲(予測範囲)の重なり具合を表す指標のこと。
+$$
+\text{IoU} =\frac{\text{Intersection}}{\text{Union}}
+=\frac{\text{重なっている範囲}}{\text{正解範囲と予測範囲の和集合}}
+$$
+このIoUが閾値を超えていれば検出成功(T)、下回れば検出失敗となる(F)。
+検出結果を基に以下の４つの判定を下す。
+
+- TP(True Positive): 物体がある場所を正しく予測できた。
+- FP(False Positive): 物体がない場所を誤って予測した。偽陽性。
+- FN(False Negative): 物体があった場所に予測をしなかった。偽陰性。
+- TN(True Negative): 物体のない場所に予測をつけなかった。
+
+表にするとこんな感じ↓
+
+|  | 物体がある場所を | 物体がない場所を |
+| ------- | :-------: | :-------: |
+| **予測した** | TP | FP |
+| **除外した** | FN | TN |
+
+この判定を基に、PrecisionとRecallを計算。
+```math
+\begin{align}
+\text{Precision} &=\frac{TP}{TP+FP}=\frac{予測が当たった}{物体があると予測した} \\[10pt]
+\text{Recall} &= \frac{TP}{TP+FN}=\frac{予測が当たった}{実際に物体が存在した} \\
+\end{align}
+```
+
+#### Average precision(AP)とAverage Recall(AR) 
+テストデータで実験する。IoU閾値は0.5。
+信頼度スコアは物体検知の結果がどの程度正確かというのを物体検知モデル自体が出力した値。
+信頼度が高い順にindexを振った。
+
+|No.|信頼度|IoU|正解|TP|FP|Precision|Recall|
+| :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: |
+|1|0.95|0.88|T|1|0|1.0000|0.1429|
+|2|0.88|0.76|T|2|0|1.0000|0.2857|
+|3|0.84|0.69|T|3|0|1.0000|0.4286|
+|4|0.77|0.81|T|4|0|1.0000|0.5714|
+|5|0.72|0.54|T|5|0|1.0000|0.7143|
+|6|0.65|0.48|F|5|1|0.8333|0.7143|
+|7|0.61|0.62|T|6|1|0.8571|0.8571|
+|8|0.53|0.51|T|7|1|0.8750|1.0000|
+|9|0.44|0.39|F|7|2|0.7778|1.0000|
+|10|0.38|0.46|F|7|3|0.7000|1.0000|
+
+PrecisionとRecallの計算は以下の通り。正解の数(=正しい物体の数)は既知とする。
+1. No.1
+    - $\text{Precision}= 1/1=1$
+    - $\text{Recall}= 1/7=0.1429$
+
+1. No.2
+    - $\text{Precision}= 2/2=1$
+    - $\text{Recall}= 2/7=0.2857$
+
+1. No.3
+    - $\text{Precision}= 3/3=1$
+    - $\text{Recall}= 3/7=0.4286$    
+
+この表でPrecision-Recallカーブを書く。<br>
+<img src="https://storage.googleapis.com/zenn-user-upload/6778d7a145ae-20240623.png" width="60%">
+
+
+
+dlcではCOCO methodを採用しているよう([deeplabcut/core/metrics/bbox.py](https://github.com/DeepLabCut/DeepLabCut/blob/main/deeplabcut/core/metrics/bbox.py))
+
+
+Reference
+- [物体検出モデルの精度評価を理解して実際に算出する](https://qiita.com/unyacat/items/1245bf595e53e79b5d4a)
+- [【物体検出の評価指標】mAP ( mean Average Precision ) の算出方法](https://qiita.com/cv_carnavi/items/08e11426e2fac8433fed)
+- [mAP (mean Average Precision) for Object Detection](https://jonathan-hui.medium.com/map-mean-average-precision-for-object-detection-45c121a31173)
+- [Mean-Average-Precision (mAP)](https://lightning.ai/docs/torchmetrics/stable/detection/mean_average_precision.html)
+
+</details>
+
+どうなったら良い値に収束したといえる？
+[このissue](https://forum.image.sc/t/evaluation-results/105920)が参考になった。
+あと[このスライド](https://speakerdeck.com/eqs/ji-jie-xue-xi-falseji-chu-karali-jie-suru-deeplabcutfalseyuan-li)。
+
+よく用いられる指標がRMSE(平均二乗誤差)。$y_i$が元データで$\hat{y_i}$が予測値。
+次元は元データと一緒で、ずれ具合を表すパラメータ。
+```math
+\begin{equation*}
+RMSE =\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y_i})^2}
+\end{equation*}
+```
+
