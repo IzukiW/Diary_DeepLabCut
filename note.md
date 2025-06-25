@@ -426,3 +426,234 @@ RMSE =\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y_i})^2}
 \end{equation*}
 ```
 
+
+## 25/06/24
+**Done**
+- DSC_3179~3219_#1~5をExtract frames済み
+- DSC_3175~3204の_#1~5をlabel(6videos, 30trials, 600frames)
+
+`Label frames`tabで`check labels`を実行するとlabel済みのフォルダに対し、label付き画像の入ったフォルダを生成してくれる。これでどこまでlabel打ったか迷子にならなそう。
+
+
+## 25/06/25
+**Done**
+-  DSC_3205の_#1~2をlabel <br>
+  -> 25/06/25 13:27(JST)時点で計700framesがlabel済み。これで一回train回して時間と制度を測る。
+- `Train network`を2回回す
+  - 1回目 635 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
+  - 2回目
+
+
+Error集
+
+<details><summary> shuffle2のevaluation結果が"CombinedEvaluation-results.csv"に保存されない</summary>
+
+```py
+100%|████████████████████████████████████████████████████████████████████████████████| 630/630 [00:11<00:00, 54.96it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████| 70/70 [00:01<00:00, 55.43it/s]
+Traceback (most recent call last):
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\gui\tabs\evaluate_network.py", line 207, in evaluate_network
+    deeplabcut.evaluate_network(
+  # 中略
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\satie\\Desktop\\izuki_temp\\Cladonema_starved_crop-Vlad&Genta-2025-06-20\\evaluation-results-pytorch\\iteration-0\\CombinedEvaluation-results.csv'
+```
+⇒開きっぱなしにしていた"CombinedEvaluation-results.csv"のファイルを閉じてから実行するときちんと上書きされた。
+</details>
+
+<details><summary> trainingが進まない</summary>
+
+```py
+Traceback (most recent call last):
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\gui\utils.py", line 25, in run
+    self.func()
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\compat.py", line 900, in analyze_videos
+    engine = get_shuffle_engine(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\generate_training_dataset\metadata.py", line 414, in get_shuffle_engine
+    shuffle_metadata = metadata.get(trainingsetindex, shuffle)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\generate_training_dataset\metadata.py", line 206, in get
+    raise ValueError(
+ValueError: Could not find a shuffle with trainingset fraction 0.9 and index 1
+WARNING: QThread: Destroyed while thread is still running
+```
+⇒config.yamlのtrain_fraction値を0.95に直して実行したら出来た。shuffle1はtrain_fractionが0.95だったのに、shuffle2でconfig.yamlの値を0.9に変更し戻さずに実行したからerrorが出た模様。
+
+<img src="./fig/Screenshot_2025-06-25_195449.png" width="50%">
+</details>
+
+analyze結果
+analyze~createでどっちも１分弱ぐらいかかった。
+
+<details><summary> shuffle1</summary>
+
+```py
+INFO:console:Analyzing videos with C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\dlc-models-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\train\snapshot-best-190.pt
+  0%|                                                                                         | 0/3597 [00:00<?, ?it/s]INFO:console:Starting to analyze C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:Video metadata:
+  Overall # of frames:    3597
+  Duration of video [s]:  119.90
+  fps:                    30.0
+  resolution:             w=400, h=400
+
+INFO:console:Running pose prediction with batch size 8
+100%|██████████████████████████████████████████████████████████████████████████████| 3597/3597 [00:47<00:00, 75.95it/s]
+INFO:console:Saving results in C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_cropDLC_Resnet50_Cladonema_starved_cropJun20shuffle1_snapshot_190.h5 and C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_cropDLC_Resnet50_Cladonema_starved_cropJun20shuffle1_snapshot_190_full.pickle
+INFO:console:The videos are analyzed. Now your research can truly start!
+You can create labeled videos with 'create_labeled_video'.
+If the tracking is not satisfactory for some videos, consider expanding the training set. You can use the function 'extract_outlier_frames' to extract a few representative outlier frames.
+
+INFO:console:Filtering with median model C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:Saving filtered csv poses!
+100%|█████████████████████████████████████████████████████████████████████████████| 3597/3597 [00:06<00:00, 560.31it/s]
+INFO:console:Starting to process video: C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:Loading C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi and data.
+INFO:console:Duration of video [s]: 119.9, recorded with 30.0 fps!
+INFO:console:Overall # of frames: 3597 with cropped frame dimensions: 400 400
+INFO:console:Generating frames and creating video.
+INFO:console:Labeled videos created.
+INFO:console:Loading
+INFO:console:
+INFO:console:C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:
+INFO:console:and data.
+INFO:console:Plots created! Please check the directory "plot-poses" within the video directory
+```
+</details>
+
+
+<details><summary> shuffle2</summary>
+
+```py
+INFO:console:Analyzing videos with C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\dlc-models-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset90shuffle2\train\snapshot-best-100.pt
+  0%|                                                                                         | 0/3597 [00:00<?, ?it/s]INFO:console:Starting to analyze C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:Video metadata:
+  Overall # of frames:    3597
+  Duration of video [s]:  119.90
+  fps:                    30.0
+  resolution:             w=400, h=400
+
+INFO:console:Running pose prediction with batch size 8
+100%|██████████████████████████████████████████████████████████████████████████████| 3597/3597 [00:49<00:00, 72.91it/s]
+INFO:console:Saving results in C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_cropDLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100.h5 and C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_cropDLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100_full.pickle
+INFO:console:The videos are analyzed. Now your research can truly start!
+You can create labeled videos with 'create_labeled_video'.
+If the tracking is not satisfactory for some videos, consider expanding the training set. You can use the function 'extract_outlier_frames' to extract a few representative outlier frames.
+
+INFO:console:Filtering with median model C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:Saving filtered csv poses!
+100%|█████████████████████████████████████████████████████████████████████████████| 3597/3597 [00:07<00:00, 512.71it/s]
+INFO:console:Starting to process video: C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:Loading C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi and data.
+INFO:console:Duration of video [s]: 119.9, recorded with 30.0 fps!
+INFO:console:Overall # of frames: 3597 with cropped frame dimensions: 400 400
+INFO:console:Generating frames and creating video.
+INFO:console:Labeled videos created.
+INFO:console:Loading
+INFO:console:
+INFO:console:C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\videos\DSC_3231_roi_#1_crop.avi
+INFO:console:
+INFO:console:and data.
+INFO:console:Plots created! Please check the directory "plot-poses" within the video directory
+```
+</details>
+
+[Evaluation-results.csvの解釈](https://deepwiki.com/DeepLabCut/DeepLabCut/2.5-model-evaluation)
+について
+
+
+bodypartsごとのrmseの評価は`comparisonbodyparts`を個別指定しないといけなさそう。
+
+```py
+deeplabcut.evaluate_network(r'C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\config.yaml', Shuffles=[2], plotting=False, comparisonbodyparts=['manubrium_base', 'mouth', 'prey', 'tentacle_base_1', 'tentacle_base_2', 'tentacle_base_3', 'tentacle_base_4', 'tentacle_base_5', 'tentacle_base_6', 'tentacle_base_7', 'tentacle_base_8', 'tentacle_base_9'])
+```
+<details><summary> bodypartsごとのevaluation結果
+</summary>
+
+```py
+In [5]: deeplabcut.evaluate_network(r'C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\co
+   ...: nfig.yaml', Shuffles=[2], plotting=False, comparisonbodyparts=['manubrium_base', 'mouth', 'prey', 'tentacle_bas
+   ...: e_1', 'tentacle_base_2', 'tentacle_base_3', 'tentacle_base_4', 'tentacle_base_5', 'tentacle_base_6', 'tentacle_
+   ...: base_7', 'tentacle_base_8', 'tentacle_base_9'])
+100%|████████████████████████████████████████████████████████████████████████████████| 630/630 [00:12<00:00, 52.18it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████| 70/70 [00:01<00:00, 56.71it/s]
+Evaluation results for DLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100-results.csv (pcutoff: 0.6):
+train rmse             1.72
+train rmse_pcutoff     1.40
+train mAP             98.00
+train mAR             98.67
+test rmse              4.31
+test rmse_pcutoff      3.24
+test mAP              93.05
+test mAR              93.86
+Name: (0.9, 2, 100, -1, 0.6), dtype: float64
+
+In [6]: deeplabcut.evaluate_network(r'C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\co
+   ...: nfig.yaml', Shuffles=[2], plotting=False, comparisonbodyparts=['manubrium_base'])
+100%|████████████████████████████████████████████████████████████████████████████████| 630/630 [00:11<00:00, 54.22it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████| 70/70 [00:01<00:00, 54.75it/s]
+Evaluation results for DLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100-results.csv (pcutoff: 0.6):
+train rmse            1.41
+train rmse_pcutoff    1.37
+train mAP             0.00
+train mAR             0.00
+test rmse             2.32
+test rmse_pcutoff     1.88
+test mAP              0.00
+test mAR              0.00
+Name: (0.9, 2, 100, -1, 0.6), dtype: float64
+
+In [7]: deeplabcut.evaluate_network(r'C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\co
+   ...: nfig.yaml', Shuffles=[2], plotting=False, comparisonbodyparts=['mouth'])
+100%|████████████████████████████████████████████████████████████████████████████████| 630/630 [00:11<00:00, 54.28it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████| 70/70 [00:01<00:00, 55.76it/s]
+Evaluation results for DLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100-results.csv (pcutoff: 0.6):
+train rmse            1.96
+train rmse_pcutoff    1.51
+train mAP             0.00
+train mAR             0.00
+test rmse             2.88
+test rmse_pcutoff     2.43
+test mAP              0.00
+test mAR              0.00
+Name: (0.9, 2, 100, -1, 0.6), dtype: float64
+
+In [8]: deeplabcut.evaluate_network(r'C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\co
+   ...: nfig.yaml', Shuffles=[2], plotting=False, comparisonbodyparts=['prey'])
+100%|████████████████████████████████████████████████████████████████████████████████| 630/630 [00:11<00:00, 53.77it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████| 70/70 [00:01<00:00, 56.71it/s]
+Evaluation results for DLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100-results.csv (pcutoff: 0.6):
+train rmse            2.33
+train rmse_pcutoff    1.39
+train mAP             0.00
+train mAR             0.00
+test rmse             2.46
+test rmse_pcutoff     2.23
+test mAP              0.00
+test mAR              0.00
+Name: (0.9, 2, 100, -1, 0.6), dtype: float64
+
+In [9]: deeplabcut.evaluate_network(r'C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\co
+   ...: nfig.yaml', Shuffles=[2], plotting=False, comparisonbodyparts=['tentacle_base_1', 'tentacle_base_2', 'tentacle_
+   ...: base_3', 'tentacle_base_4', 'tentacle_base_5', 'tentacle_base_6', 'tentacle_base_7', 'tentacle_base_8', 'tentac
+   ...: le_base_9'])
+100%|████████████████████████████████████████████████████████████████████████████████| 630/630 [00:11<00:00, 54.74it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████| 70/70 [00:01<00:00, 55.32it/s]
+Evaluation results for DLC_Resnet50_Cladonema_starved_cropJun20shuffle2_snapshot_100-results.csv (pcutoff: 0.6):
+train rmse             1.70
+train rmse_pcutoff     1.39
+train mAP             97.88
+train mAR             98.48
+test rmse              4.68
+test rmse_pcutoff      3.42
+test mAP              92.39
+test mAR              93.14
+Name: (0.9, 2, 100, -1, 0.6), dtype: float64
+```
+
+</details>
+
+- manubrium_base: train rmse            1.41
+- mouth: train rmse            1.96
+- prey: train rmse            2.33
+- tentacle_base: train rmse             1.70
