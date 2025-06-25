@@ -440,7 +440,7 @@ RMSE =\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y_i})^2}
 -  DSC_3205の_#1~2をlabel <br>
   -> 25/06/25 13:27(JST)時点で計700framesがlabel済み。これで一回train回して時間と制度を測る。
 - `Train network`を2回回す
-  - 1回目 635 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
+  - 1回目 665 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
   - 2回目
 
 
