@@ -1,4 +1,18 @@
-TOC
+
+- [25/06/12](#250612)
+- [2025/06/13](#20250613)
+- [25/06/15](#250615)
+- [25/06/16](#250616)
+- [25/06/20](#250620)
+- [25/06/23](#250623)
+    - [Intersection over Union(IoU)](#intersection-over-unioniou)
+    - [Average precision(AP)とAverage Recall(AR)](#average-precisionapとaverage-recallar)
+- [25/06/24](#250624)
+- [25/06/25](#250625)
+- [25/06/26](#250626)
+  - [Task after meeting](#task-after-meeting)
+
+---
 
 ## 25/06/12 
 
@@ -657,3 +671,24 @@ Name: (0.9, 2, 100, -1, 0.6), dtype: float64
 - mouth: train rmse            1.96
 - prey: train rmse            2.33
 - tentacle_base: train rmse             1.70
+
+
+## 25/06/26
+
+### Task after meeting
+1. tentacle_baseを1~20に増やして再ラベル
+2. tentacle_baseのlabelの仕方を変更。真下を1とか
+3. training phaseでbodypartごとのerror histogramを出力
+4. test phaseでbodypartごとのlikelihood histogramを出力
+5. test phaseでの各maximum errorを出力
+6. liklihood histogramをもとにthreshold(p-cutoff)を設定
+
+**Done**
+- anaconda上に[hdf5view](https://tgwoodcock.github.io/hdf5view/user/index.html)をinstall
+  ->.h5ファイルを読めるように
+- for task1&2: 新しいproject`Cladonema_starved_crop_tentacle20-Izuki-2025-06-26`を作成
+  - `Cladonema_starved_crop-Vlad&Genta-2025-06-20`からextracted frameをコピー。使えるlabeled frameは残した
+  - "tentacle_base1"は画像の一番下に位置するものと定める
+- for task4&5: .h5 fileの使い方を勉強し、計算用に`for_h5_trial.ipynb`を作成
+  - pass "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\evaluation-results-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\for_h5_trial.ipynb"
+
