@@ -692,3 +692,621 @@ Name: (0.9, 2, 100, -1, 0.6), dtype: float64
 - for task4&5: .h5 fileの使い方を勉強し、計算用に`for_h5_trial.ipynb`を作成
   - pass "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\evaluation-results-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\for_h5_trial.ipynb"
 
+
+## 25/06/27
+
+**Done**
+- LG gramにanacondaとpythonのpathを通して解析できるようにした
+
+
+## 25/06/28
+
+**Done**
+- DSC_3184_#2までlabel済み
+- 280 framesを90% train、10% testに回してtraining network
+- .h5をdataframeにして計算し、excelにbodypartごとに出力するipynbができた
+
+
+## 25/06/30
+
+**Done**
+- 280 framesをtraining&testした結果が出た。200epochs回すはずが151epochsで止まっていたけど
+  <details><summary> evaluationの結果
+  </summary>
+  ```py
+  100%|████████████████████████████████████████████████████████████████████████████████| 252/252 [00:06<00:00, 37.71it/s]
+  00%|██████████████████████████████████████████████████████████████████████████████████| 28/28 [00:00<00:00, 46.67it/s]
+  Traceback (most recent call last):
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\gui\tabs\evaluate_network.py", line 207, in evaluate_network
+    deeplabcut.evaluate_network(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\compat.py", line 558, in evaluate_network
+    return evaluate_network(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\pose_estimation_pytorch\apis\evaluation.py", line 832, in evaluate_network
+    evaluate_snapshot(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\pose_estimation_pytorch\apis\evaluation.py", line 629, in evaluate_snapshot
+    save_evaluation_results(df_scores, scores_filepath, show_errors, pcutoff)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\pose_estimation_pytorch\apis\evaluation.py", line 881, in save_evaluation_results
+    df_scores.to_csv(scores_path)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\core\generic.py", line 3986, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\formats\format.py", line 1014, in to_csv
+    csv_formatter.save()
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+  FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\satie\\Desktop\\izuki_temp\\Cladonema_starved_crop_tentacle20-Izuki-2025-06-26\\evaluation-results-pytorch\\iteration-0\\Cladonema_starved_crop_tentacle20Jun26-trainset90shuffle1\\DLC_Resnet50_Cladonema_starved_crop_tentacle20Jun26shuffle1_snapshot_040-results.csv'
+  INFO:console:Evaluation results for DLC_Resnet50_Cladonema_starved_crop_tentacle20Jun26shuffle1_snapshot_040-results.csv (pcutoff: 0.6):
+  INFO:console:train rmse              2.00
+  train rmse_pcutoff      1.95
+  train mAP              99.89
+  train mAR              99.96
+  test rmse               2.41
+  test rmse_pcutoff       2.26
+  test mAP              100.00
+  test mAR              100.00
+  Name: (0.9, 1, 40, -1, 0.6), dtype: float64
+  ```
+  </details>
+
+- evaluationでエラー吐く
+  <details><summary> evaluationのエラー
+  </summary>
+  ```py
+  100%|████████████████████████████████████████████████████████████████████████████████| 252/252 [00:05<00:00, 50.30it/s]
+  100%|██████████████████████████████████████████████████████████████████████████████████| 28/28 [00:00<00:00, 52.39it/s]
+  Traceback (most recent call last):
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\gui\tabs\evaluate_network.py", line 207, in evaluate_network
+    deeplabcut.evaluate_network(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\compat.py", line 558, in evaluate_network
+    return evaluate_network(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\pose_estimation_pytorch\apis\evaluation.py", line 832, in evaluate_network
+    evaluate_snapshot(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\pose_estimation_pytorch\apis\evaluation.py", line 629, in evaluate_snapshot
+    save_evaluation_results(df_scores, scores_filepath, show_errors, pcutoff)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\deeplabcut\pose_estimation_pytorch\apis\evaluation.py", line 881, in save_evaluation_results
+    df_scores.to_csv(scores_path)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\core\generic.py", line 3986, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\formats\format.py", line 1014, in to_csv
+    csv_formatter.save()
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+  File "C:\Users\satie\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+  FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\satie\\Desktop\\izuki_temp\\Cladonema_starved_crop_tentacle20-Izuki-2025-06-26\\evaluation-results-pytorch\\iteration-0\\Cladonema_starved_crop_tentacle20Jun26-trainset90shuffle1\\DLC_Resnet50_Cladonema_starved_crop_tentacle20Jun26shuffle1_snapshot_040-results.csv'
+  ```
+  </details>
+  ファイル名の長さが問題？
+
+
+## 25/07/01
+
+**Done**
+- [このサイト](https://office54.net/iot/windows11/network-drive-map-release)に従い、ネットワークドライブの割り当てを行いファイルパスを短くした。その結果保存されなかったanalyze後のcsvが保存された
+  <- ログアウト時に解除する習慣をつける
+  network path:`\\DESKTOP-4DEN2DA\Users\satie\Desktop\izuki_temp\Cladonema_starved_tentacle20-Izuki-2025-06-26`
+- 合計で540frame分labelし直し、trainingを行った(shuffle3)
+- 時間で切り出したfed movie(~DSC_3201_#5)を400×400にcrop
+  - 後でstarvedでtrainしたmodelに食わせる
+  - 結果次第ではtraining dataにfedを入れる
+- DSC_3204_#1に対してshuffle1~3を適用(数字が大きいほどlabeled dataが多い)
+  - shuffle1: 280frames, 48m
+  - shuffle2: 380frames, 50m
+  - shuffle3: 540frames, 105m
+- `Create videos`で`plot trajectory`にチェックを入れるとグラフを4つ出してくれる。
+  colorを`hsv`にしているがこれだとmanubrium_baseとtentacle_base_#lastの色が被ってよろしくない。
+- 明日はfedのanalyzeとanalyze結果vs私のlabelで精度計算
+
+
+## 25/07/02
+
+**Done**
+- shuffle1~3で使用したframeを確認するために`Z:\evaluation-results-pytorch\iteration-0`内の.h5ファイルをcsv/excelに変換する.pyを作成
+- `compare_label.xlsx`を作って、学習データに使わなかった動画に対しdlcが打ったラベルと私のラベルを比較できるようにした
+- config.yamlを書き換えてたらよくわからんエラーが多発するようになった。泣きたい
+  - napariでlabel済みファイルが開けない
+  - 開けてもlabelが消えてる
+  - あるはずのshuffleが見えない
+  - アプリが勝手に落ちる etc...
+
+<details><summary> 謎エラーーーー
+</summary>
+
+```py
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\components\viewer_model.py:1202, in ViewerModel._open_or_raise_error(self=Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoo...ouse_drag_gen={}, _mouse_wheel_gen={}, keymap={}), paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], kwargs={}, layer_type=None, stack=False)
+   1201 try:
+-> 1202     added = self._add_layers_with_plugins(
+        self = Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoom=1.0, angles=(0.0, 0.0, 90.0), perspective=0.0, mouse_pan=True, mouse_zoom=True), cursor=Cursor(position=(1.0, 1.0), scaled=True, size=1, style=<CursorStyle.STANDARD: 'standard'>), dims=Dims(ndim=2, ndisplay=2, last_used=0, range=((0, 2, 1), (0, 2, 1)), current_step=(0, 0), order=(0, 1), axis_labels=('0', '1')), grid=GridCanvas(stride=1, shape=(-1, -1), enabled=False), layers=[], help='', status='Ready', tooltip=Tooltip(visible=True, text=''), theme='dark', title='napari', mouse_over_canvas=True, mouse_move_callbacks=[], mouse_drag_callbacks=[], mouse_double_click_callbacks=[], mouse_wheel_callbacks=[<function dims_scroll at 0x00000207F531CDC0>], _persisted_mouse_event={}, _mouse_drag_gen={}, _mouse_wheel_gen={}, keymap={})
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        kwargs = {}
+        stack = False
+        plugin = 'napari-deeplabcut'
+        layer_type = None
+   1203         paths,
+   1204         kwargs=kwargs,
+   1205         stack=stack,
+   1206         plugin=plugin,
+   1207         layer_type=layer_type,
+   1208     )
+   1209 # plugin failed
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\components\viewer_model.py:1292, in ViewerModel._add_layers_with_plugins(self=Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoo...ouse_drag_gen={}, _mouse_wheel_gen={}, keymap={}), paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, kwargs={}, plugin='napari-deeplabcut', layer_type=None)
+   1291     assert len(paths) == 1
+-> 1292     layer_data, hookimpl = read_data_with_plugins(
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        stack = False
+        plugin = 'napari-deeplabcut'
+   1293         paths, plugin=plugin, stack=stack
+   1294     )
+   1296 # glean layer names from filename. These will be used as *fallback*
+   1297 # names, if the plugin does not return a name kwarg in their meta dict.
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\plugins\io.py:77, in read_data_with_plugins(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], plugin='napari-deeplabcut', stack=False)
+     75 hookimpl: Optional[HookImplementation]
+---> 77 res = _npe2.read(paths, plugin, stack=stack)
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        plugin = 'napari-deeplabcut'
+        stack = False
+        _npe2 = <module 'napari.plugins._npe2' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\napari\\plugins\\_npe2.py'>
+     78 if res is not None:
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\plugins\_npe2.py:63, in read(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], plugin='napari-deeplabcut', stack=False)
+     62 try:
+---> 63     layer_data, reader = io_utils.read_get_reader(
+        io_utils = <module 'npe2.io_utils' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\npe2\\io_utils.py'>
+        plugin = 'napari-deeplabcut'
+        npe1_path = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+     64         npe1_path, plugin_name=plugin
+     65     )
+     66 except ValueError as e:
+     67     # plugin wasn't passed and no reader was found
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\npe2\io_utils.py:66, in read_get_reader(path=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5', plugin_name='napari-deeplabcut', stack=None)
+     65     new_path, new_stack = v1_to_v2(path)
+---> 66     return _read(
+        new_path = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        new_stack = False
+        plugin_name = 'napari-deeplabcut'
+     67         new_path, plugin_name=plugin_name, return_reader=True, stack=new_stack
+     68     )
+     69 else:
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\npe2\io_utils.py:170, in _read(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, plugin_name='napari-deeplabcut', return_reader=True, _pm=<npe2._plugin_manager.PluginManager object>)
+    168 if read_func is not None:
+    169     # if the reader function raises an exception here, we don't try to catch it
+--> 170     if layer_data := read_func(paths, stack=stack):
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        read_func = <function read_hdf at 0x0000020822F66830>
+        stack = False
+    171         return (layer_data, rdr) if return_reader else layer_data
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\npe2\manifest\contributions\_readers.py:69, in ReaderContribution.exec.<locals>.npe1_compat(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False)
+     68 path = v2_to_v1(paths, stack)
+---> 69 return callable_(path)
+        path = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+        callable_ = <function read_hdf at 0x000002081C504940>
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari_deeplabcut\_reader.py:201, in read_hdf(filename=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5')
+    200 for filename in glob.iglob(filename):
+--> 201     temp = pd.read_hdf(filename)
+        filename = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+        pd = <module 'pandas' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\pandas\\__init__.py'>
+    202     temp = misc.merge_multiple_scorers(temp)
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\pytables.py:457, in read_hdf(path_or_buf=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5', key='/keypoints', mode='r', errors='strict', where=None, start=None, stop=None, columns=None, iterator=False, chunksize=None, **kwargs={})
+    456         key = candidate_only_group._v_pathname
+--> 457     return store.select(
+        store = <class 'pandas.io.pytables.HDFStore'>
+File path: D:\Satiety_differentially_modulates_feeding_\dlc\Cladonema_starved_tentacle20-Izuki-2025-06-26\original_labeled-data\DSC_3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5
+
+        key = '/keypoints'
+        where = None
+        start = None
+        stop = None
+        columns = None
+        iterator = False
+        chunksize = None
+        auto_close = True
+    458         key,
+    459         where=where,
+    460         start=start,
+    461         stop=stop,
+    462         columns=columns,
+    463         iterator=iterator,
+    464         chunksize=chunksize,
+    465         auto_close=auto_close,
+    466     )
+    467 except (ValueError, TypeError, LookupError):
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\pytables.py:911, in HDFStore.select(self=<class 'pandas.io.pytables.HDFStore'>
+File path:...3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5
+, key='/keypoints', where=None, start=None, stop=None, columns=None, iterator=False, chunksize=None, auto_close=True)
+    898 it = TableIterator(
+    899     self,
+    900     s,
+   (...)
+    908     auto_close=auto_close,
+    909 )
+--> 911 return it.get_result()
+        it = <pandas.io.pytables.TableIterator object at 0x0000020822B7C6D0>
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\pytables.py:2034, in TableIterator.get_result(self=<pandas.io.pytables.TableIterator object>, coordinates=False)
+   2033 # directly return the result
+-> 2034 results = self.func(self.start, self.stop, where)
+        self = <pandas.io.pytables.TableIterator object at 0x0000020822B7C6D0>
+        where = None
+        self.start = None
+        self.stop = None
+   2035 self.close()
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\pytables.py:895, in HDFStore.select.<locals>.func(_start=None, _stop=None, _where=None)
+    894 def func(_start, _stop, _where):
+--> 895     return s.read(start=_start, stop=_stop, where=_where, columns=columns)
+        Exception trying to inspect frame. No more locals available.
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\pytables.py:3301, in BlockManagerFixed.read(self=<class 'pandas.io.pytables.FrameFixed'> instance, where=None, columns=None, start=None, stop=None)
+   3300 _start, _stop = (start, stop) if i == select_axis else (None, None)
+-> 3301 ax = self.read_index(f"axis{i}", start=_start, stop=_stop)
+        i = 0
+        Exception trying to inspect frame. No more locals available.
+   3302 axes.append(ax)
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\pandas\io\pytables.py:2991, in GenericFixed.read_index(self=<class 'pandas.io.pytables.FrameFixed'> instance, key='axis0', start=None, stop=None)
+   2988 def read_index(
+   2989     self, key: str, start: int | None = None, stop: int | None = None
+   2990 ) -> Index:
+-> 2991     variety = _ensure_decoded(getattr(self.attrs, f"{key}_variety"))
+        key = 'axis0'
+        Exception trying to inspect frame. No more locals available.
+   2993     if variety == "multi":
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\tables\attributeset.py:283, in AttributeSet.__getattr__(self=/keypoints._v_attrs (AttributeSet), 8 attributes..._type := 'frame',
+    pandas_version := '0.15.2'], name='axis0_variety')
+    282 if name not in self._v_attrnames:
+--> 283     raise AttributeError(f"Attribute {name!r} does not exist "
+        name = 'axis0_variety'
+        self = /keypoints._v_attrs (AttributeSet), 8 attributes:
+   [CLASS := 'GROUP',
+    TITLE := '',
+    VERSION := '1.0',
+    encoding := 'UTF-8',
+    errors := 'strict',
+    ndim := 2,
+    pandas_type := 'frame',
+    pandas_version := '0.15.2']
+        self._v__nodepath = '/keypoints'
+    284                          f"in node: {self._v__nodepath!r}")
+    286 # Read the attribute from disk. This is an optimization to read
+    287 # quickly system attributes that are _string_ values, but it
+    288 # takes care of other types as well as for example NROWS for
+    289 # Tables and EXTDIM for EArrays
+
+AttributeError: Attribute 'axis0_variety' does not exist in node: '/keypoints'
+
+The above exception was the direct cause of the following exception:
+
+ReaderPluginError                         Traceback (most recent call last)
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\_qt\qt_viewer.py:953, in QtViewer._qt_open(self=<napari._qt.qt_viewer.QtViewer object>, filenames=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, choose_plugin=False, plugin=None, layer_type=None, **kwargs={})
+    952 try:
+--> 953     self.viewer.open(
+        self = <napari._qt.qt_viewer.QtViewer object at 0x00000207F67395A0>
+        self.viewer = Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoom=1.0, angles=(0.0, 0.0, 90.0), perspective=0.0, mouse_pan=True, mouse_zoom=True), cursor=Cursor(position=(1.0, 1.0), scaled=True, size=1, style=<CursorStyle.STANDARD: 'standard'>), dims=Dims(ndim=2, ndisplay=2, last_used=0, range=((0, 2, 1), (0, 2, 1)), current_step=(0, 0), order=(0, 1), axis_labels=('0', '1')), grid=GridCanvas(stride=1, shape=(-1, -1), enabled=False), layers=[], help='', status='Ready', tooltip=Tooltip(visible=True, text=''), theme='dark', title='napari', mouse_over_canvas=True, mouse_move_callbacks=[], mouse_drag_callbacks=[], mouse_double_click_callbacks=[], mouse_wheel_callbacks=[<function dims_scroll at 0x00000207F531CDC0>], _persisted_mouse_event={}, _mouse_drag_gen={}, _mouse_wheel_gen={}, keymap={})
+        filenames = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        stack = False
+        plugin = None
+        layer_type = None
+        kwargs = {}
+    954         filenames,
+    955         stack=stack,
+    956         plugin=plugin,
+    957         layer_type=layer_type,
+    958         **kwargs,
+    959     )
+    960 except ReaderPluginError as e:
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\components\viewer_model.py:1102, in ViewerModel.open(self=Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoo...ouse_drag_gen={}, _mouse_wheel_gen={}, keymap={}), path=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, plugin=None, layer_type=None, **kwargs={})
+   1100 # no plugin choice was made
+   1101 else:
+-> 1102     layers = self._open_or_raise_error(
+        layers = <module 'napari.layers' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\napari\\layers\\__init__.py'>
+        self = Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoom=1.0, angles=(0.0, 0.0, 90.0), perspective=0.0, mouse_pan=True, mouse_zoom=True), cursor=Cursor(position=(1.0, 1.0), scaled=True, size=1, style=<CursorStyle.STANDARD: 'standard'>), dims=Dims(ndim=2, ndisplay=2, last_used=0, range=((0, 2, 1), (0, 2, 1)), current_step=(0, 0), order=(0, 1), axis_labels=('0', '1')), grid=GridCanvas(stride=1, shape=(-1, -1), enabled=False), layers=[], help='', status='Ready', tooltip=Tooltip(visible=True, text=''), theme='dark', title='napari', mouse_over_canvas=True, mouse_move_callbacks=[], mouse_drag_callbacks=[], mouse_double_click_callbacks=[], mouse_wheel_callbacks=[<function dims_scroll at 0x00000207F531CDC0>], _persisted_mouse_event={}, _mouse_drag_gen={}, _mouse_wheel_gen={}, keymap={})
+        _path = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        _stack = False
+        kwargs = {}
+        layer_type = None
+   1103         _path, kwargs, layer_type, _stack
+   1104     )
+   1105     added.extend(layers)
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\components\viewer_model.py:1211, in ViewerModel._open_or_raise_error(self=Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoo...ouse_drag_gen={}, _mouse_wheel_gen={}, keymap={}), paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], kwargs={}, layer_type=None, stack=False)
+   1210     except Exception as e:  # noqa: BLE001
+-> 1211         raise ReaderPluginError(
+        trans = <napari.utils.translations.TranslationBundle object at 0x00000207EFFDC910>
+        plugin = 'napari-deeplabcut'
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+   1212             trans._(
+   1213                 'Tried opening with {plugin}, but failed.',
+   1214                 deferred=True,
+   1215                 plugin=plugin,
+   1216             ),
+   1217             plugin,
+   1218             paths,
+   1219         ) from e
+   1220 # multiple plugins
+   1221 else:
+
+ReaderPluginError: Tried opening with napari-deeplabcut, but failed.
+
+During handling of the above exception, another exception occurred:
+
+OSError                                   Traceback (most recent call last)
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\_qt\qt_viewer.py:1318, in QtViewer.dropEvent(self=<napari._qt.qt_viewer.QtViewer object>, event=<PyQt5.QtGui.QDropEvent object>)
+   1315     else:
+   1316         filenames.append(url.toString())
+-> 1318 self._qt_open(
+        self = <napari._qt.qt_viewer.QtViewer object at 0x00000207F67395A0>
+        filenames = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        shift_down = <PyQt5.QtCore.Qt.KeyboardModifiers object at 0x000002081EB57990>
+        alt_down = <PyQt5.QtCore.Qt.KeyboardModifiers object at 0x0000020822587300>
+   1319     filenames,
+   1320     stack=bool(shift_down),
+   1321     choose_plugin=bool(alt_down),
+   1322 )
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\_qt\qt_viewer.py:961, in QtViewer._qt_open(self=<napari._qt.qt_viewer.QtViewer object>, filenames=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, choose_plugin=False, plugin=None, layer_type=None, **kwargs={})
+    953     self.viewer.open(
+    954         filenames,
+    955         stack=stack,
+   (...)
+    958         **kwargs,
+    959     )
+    960 except ReaderPluginError as e:
+--> 961     handle_gui_reading(
+        filenames = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        self = <napari._qt.qt_viewer.QtViewer object at 0x00000207F67395A0>
+        stack = False
+        layer_type = None
+        kwargs = {}
+    962         filenames,
+    963         self,
+    964         stack,
+    965         e.reader_plugin,
+    966         e,
+    967         layer_type=layer_type,
+    968         **kwargs,
+    969     )
+    970 except MultipleReaderError:
+    971     handle_gui_reading(filenames, self, stack, **kwargs)
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\_qt\dialogs\qt_reader_dialog.py:201, in handle_gui_reading(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], qt_viewer=<napari._qt.qt_viewer.QtViewer object>, stack=False, plugin_name='napari-deeplabcut', error=ReaderPluginError('Tried opening with napari-deeplabcut, but failed.'), plugin_override=False, **kwargs={'layer_type': None})
+    199 display_name, persist = readerDialog.get_user_choices()
+    200 if display_name:
+--> 201     open_with_dialog_choices(
+        display_name = 'napari builtins'
+        persist = False
+        readerDialog = <napari._qt.dialogs.qt_reader_dialog.QtReaderDialog object at 0x0000020822F67E20>
+        readerDialog._extension = '.h5'
+        readers = {'napari': 'napari builtins'}
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        stack = False
+        qt_viewer = <napari._qt.qt_viewer.QtViewer object at 0x00000207F67395A0>
+        kwargs = {'layer_type': None}
+    202         display_name,
+    203         persist,
+    204         readerDialog._extension,
+    205         readers,
+    206         paths,
+    207         stack,
+    208         qt_viewer,
+    209         **kwargs,
+    210     )
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\_qt\dialogs\qt_reader_dialog.py:294, in open_with_dialog_choices(display_name='napari builtins', persist=False, extension='.h5', readers={'napari': 'napari builtins'}, paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, qt_viewer=<napari._qt.qt_viewer.QtViewer object>, **kwargs={'layer_type': None})
+    290 plugin_name = [
+    291     p_name for p_name, d_name in readers.items() if d_name == display_name
+    292 ][0]
+    293 # may throw error, but we let it this time
+--> 294 qt_viewer.viewer.open(paths, stack=stack, plugin=plugin_name, **kwargs)
+        plugin_name = 'napari'
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        qt_viewer.viewer = Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoom=1.0, angles=(0.0, 0.0, 90.0), perspective=0.0, mouse_pan=True, mouse_zoom=True), cursor=Cursor(position=(1.0, 1.0), scaled=True, size=1, style=<CursorStyle.STANDARD: 'standard'>), dims=Dims(ndim=2, ndisplay=2, last_used=0, range=((0, 2, 1), (0, 2, 1)), current_step=(0, 0), order=(0, 1), axis_labels=('0', '1')), grid=GridCanvas(stride=1, shape=(-1, -1), enabled=False), layers=[], help='', status='Ready', tooltip=Tooltip(visible=True, text=''), theme='dark', title='napari', mouse_over_canvas=True, mouse_move_callbacks=[], mouse_drag_callbacks=[], mouse_double_click_callbacks=[], mouse_wheel_callbacks=[<function dims_scroll at 0x00000207F531CDC0>], _persisted_mouse_event={}, _mouse_drag_gen={}, _mouse_wheel_gen={}, keymap={})
+        stack = False
+        kwargs = {'layer_type': None}
+        qt_viewer = <napari._qt.qt_viewer.QtViewer object at 0x00000207F67395A0>
+    296 if persist:
+    297     if not extension.endswith(os.sep):
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\components\viewer_model.py:1092, in ViewerModel.open(self=Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoo...ouse_drag_gen={}, _mouse_wheel_gen={}, keymap={}), path=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, plugin='napari', layer_type=None, **kwargs={})
+   1089 _path = [_path] if not isinstance(_path, list) else _path
+   1090 if plugin:
+   1091     added.extend(
+-> 1092         self._add_layers_with_plugins(
+        added = []
+        self = Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoom=1.0, angles=(0.0, 0.0, 90.0), perspective=0.0, mouse_pan=True, mouse_zoom=True), cursor=Cursor(position=(1.0, 1.0), scaled=True, size=1, style=<CursorStyle.STANDARD: 'standard'>), dims=Dims(ndim=2, ndisplay=2, last_used=0, range=((0, 2, 1), (0, 2, 1)), current_step=(0, 0), order=(0, 1), axis_labels=('0', '1')), grid=GridCanvas(stride=1, shape=(-1, -1), enabled=False), layers=[], help='', status='Ready', tooltip=Tooltip(visible=True, text=''), theme='dark', title='napari', mouse_over_canvas=True, mouse_move_callbacks=[], mouse_drag_callbacks=[], mouse_double_click_callbacks=[], mouse_wheel_callbacks=[<function dims_scroll at 0x00000207F531CDC0>], _persisted_mouse_event={}, _mouse_drag_gen={}, _mouse_wheel_gen={}, keymap={})
+        _path = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        kwargs = {}
+        plugin = 'napari'
+        layer_type = None
+        _stack = False
+   1093             _path,
+   1094             kwargs=kwargs,
+   1095             plugin=plugin,
+   1096             layer_type=layer_type,
+   1097             stack=_stack,
+   1098         )
+   1099     )
+   1100 # no plugin choice was made
+   1101 else:
+   1102     layers = self._open_or_raise_error(
+   1103         _path, kwargs, layer_type, _stack
+   1104     )
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\components\viewer_model.py:1292, in ViewerModel._add_layers_with_plugins(self=Viewer(camera=Camera(center=(0.0, 0.0, 0.0), zoo...ouse_drag_gen={}, _mouse_wheel_gen={}, keymap={}), paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, kwargs={}, plugin='napari', layer_type=None)
+   1290 else:
+   1291     assert len(paths) == 1
+-> 1292     layer_data, hookimpl = read_data_with_plugins(
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        stack = False
+        plugin = 'napari'
+   1293         paths, plugin=plugin, stack=stack
+   1294     )
+   1296 # glean layer names from filename. These will be used as *fallback*
+   1297 # names, if the plugin does not return a name kwarg in their meta dict.
+   1298 filenames = []
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\plugins\io.py:77, in read_data_with_plugins(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], plugin='napari', stack=False)
+     74     assert len(paths) == 1
+     75 hookimpl: Optional[HookImplementation]
+---> 77 res = _npe2.read(paths, plugin, stack=stack)
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        plugin = 'napari'
+        stack = False
+        _npe2 = <module 'napari.plugins._npe2' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\napari\\plugins\\_npe2.py'>
+     78 if res is not None:
+     79     _ld, hookimpl = res
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari\plugins\_npe2.py:63, in read(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], plugin='napari', stack=False)
+     61     npe1_path = paths[0]
+     62 try:
+---> 63     layer_data, reader = io_utils.read_get_reader(
+        io_utils = <module 'npe2.io_utils' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\npe2\\io_utils.py'>
+        plugin = 'napari'
+        npe1_path = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+     64         npe1_path, plugin_name=plugin
+     65     )
+     66 except ValueError as e:
+     67     # plugin wasn't passed and no reader was found
+     68     if 'No readers returned data' not in str(e):
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\npe2\io_utils.py:66, in read_get_reader(path=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5', plugin_name='napari', stack=None)
+     62 if stack is None:
+     63     # "npe1" old path
+     64     # Napari 0.4.15 and older, hopefully we can drop this and make stack mandatory
+     65     new_path, new_stack = v1_to_v2(path)
+---> 66     return _read(
+        new_path = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        new_stack = False
+        plugin_name = 'napari'
+     67         new_path, plugin_name=plugin_name, return_reader=True, stack=new_stack
+     68     )
+     69 else:
+     70     assert isinstance(path, list)
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\npe2\io_utils.py:170, in _read(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False, plugin_name='napari', return_reader=True, _pm=<npe2._plugin_manager.PluginManager object>)
+    165     read_func = rdr.exec(
+    166         kwargs={"path": paths, "stack": stack, "_registry": _pm.commands}
+    167     )
+    168     if read_func is not None:
+    169         # if the reader function raises an exception here, we don't try to catch it
+--> 170         if layer_data := read_func(paths, stack=stack):
+        paths = ['D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5']
+        read_func = <function _magic_imreader at 0x0000020822F669E0>
+        stack = False
+    171             return (layer_data, rdr) if return_reader else layer_data
+    173 if plugin_name:
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\npe2\manifest\contributions\_readers.py:69, in ReaderContribution.exec.<locals>.npe1_compat(paths=[r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5'], stack=False)
+     66 @wraps(callable_)
+     67 def npe1_compat(paths, *, stack):
+     68     path = v2_to_v1(paths, stack)
+---> 69     return callable_(path)
+        path = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+        callable_ = <function _magic_imreader at 0x00000207F0925240>
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari_builtins\io\_read.py:491, in _magic_imreader(path=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5')
+    490 def _magic_imreader(path: str) -> List["LayerData"]:
+--> 491     return [(magic_imread(path),)]
+        path = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari_builtins\io\_read.py:227, in magic_imread(filenames=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5', use_dask=False, stack=True)
+    225 else:
+    226     if shape is None:
+--> 227         image = imread(filename)
+        filename = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+    228         shape = image.shape
+    229         dtype = image.dtype
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\napari_builtins\io\_read.py:94, in imread(filename=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5')
+     92     return np.load(filename)
+     93 if ext.lower() not in [".tif", ".tiff", ".lsm"]:
+---> 94     return imageio.imread(filename)
+        filename = 'D:\\Satiety_differentially_modulates_feeding_\\dlc\\Cladonema_starved_tentacle20-Izuki-2025-06-26\\original_labeled-data\\DSC_3174_roi_trial1_crop\\CollectedData_Vlad&Genta.h5'
+        imageio = <module 'imageio.v2' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\imageio\\v2.py'>
+     95 import tifffile
+     97 # Pre-download urls before loading them with tifffile
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\imageio\v2.py:360, in imread(uri=r'D:\Satiety_differentially_modulates_feeding_\dlc..._3174_roi_trial1_crop\CollectedData_Vlad&Genta.h5', format=None, **kwargs={})
+    357 imopen_args["legacy_mode"] = True
+    359 with imopen(uri, "ri", **imopen_args) as file:
+--> 360     result = file.read(index=0, **kwargs)
+        file = <imageio.plugins.pillow.PillowPlugin object at 0x0000020822B7D030>
+        kwargs = {}
+    362 return result
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\imageio\plugins\pillow.py:252, in PillowPlugin.read(self=<imageio.plugins.pillow.PillowPlugin object>, index=0, mode=None, rotate=False, apply_gamma=False, writeable_output=True, pilmode=None, exifrotate=None, as_gray=None)
+    249 if isinstance(index, int):
+    250     # will raise IO error if index >= number of frames in image
+    251     self._image.seek(index)
+--> 252     image = self._apply_transforms(
+        self = <imageio.plugins.pillow.PillowPlugin object at 0x0000020822B7D030>
+        mode = None
+        rotate = False
+        self._image = <PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1 at 0x20822B7D180>
+        apply_gamma = False
+        writeable_output = True
+    253         self._image, mode, rotate, apply_gamma, writeable_output
+    254     )
+    255 else:
+    256     iterator = self.iter(
+    257         mode=mode,
+    258         rotate=rotate,
+    259         apply_gamma=apply_gamma,
+    260         writeable_output=writeable_output,
+    261     )
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\imageio\plugins\pillow.py:333, in PillowPlugin._apply_transforms(self=<imageio.plugins.pillow.PillowPlugin object>, image=<PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1>, mode=None, rotate=False, apply_gamma=False, writeable_output=True)
+    329     else:
+    330         # pillow >= 10.1.0
+    331         image = image.convert(desired_mode)
+--> 333 image = np.asarray(image)
+        image = <PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1 at 0x20822B7D180>
+        np = <module 'numpy' from 'C:\\Users\\satie\\anaconda3\\envs\\DEEPLABCUT\\lib\\site-packages\\numpy\\__init__.py'>
+    335 meta = self.metadata(index=self._image.tell(), exclude_applied=False)
+    336 if rotate and "Orientation" in meta:
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\PIL\Image.py:735, in Image.__array_interface__(self=<PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1>)
+    733     new["data"] = self.tobytes("raw", "L")
+    734 else:
+--> 735     new["data"] = self.tobytes()
+        new = {'version': 3}
+        self = <PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1 at 0x20822B7D180>
+    736 new["shape"], new["typestr"] = _conv_type_shape(self)
+    737 return new
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\PIL\Image.py:794, in Image.tobytes(self=<PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1>, encoder_name='raw', *args=())
+    791 if encoder_name == "raw" and encoder_args == ():
+    792     encoder_args = self.mode
+--> 794 self.load()
+        self = <PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1 at 0x20822B7D180>
+    796 if self.width == 0 or self.height == 0:
+    797     return b""
+
+File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\PIL\ImageFile.py:473, in StubImageFile.load(self=<PIL.Hdf5StubImagePlugin.HDF5StubImageFile image mode=F size=1x1>)
+    471 if loader is None:
+    472     msg = f"cannot find loader for this {self.format} file"
+--> 473     raise OSError(msg)
+        msg = 'cannot find loader for this HDF5 file'
+    474 image = loader.load(self)
+    475 assert image is not None
+
+OSError: cannot find loader for this HDF5 file
+```
+</details>
+
