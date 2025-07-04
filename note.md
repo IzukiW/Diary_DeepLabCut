@@ -1,6 +1,6 @@
 
 - [25/06/12](#250612)
-- [2025/06/13](#20250613)
+- [25/06/13](#20250613)
 - [25/06/15](#250615)
 - [25/06/16](#250616)
 - [25/06/20](#250620)
@@ -109,7 +109,7 @@ FileNotFoundError: [WinError 2] The system cannot find the file specified
 (DEEPLABCUT)上のpipをuninstallしたらエラーが消えた。baseのpipとconflictしてたのだろうか？
 
 
-## 2025/06/13
+## 25/06/13
 
 昨日は通らなかった`nvcc -V`が通るようになった。
 ```
@@ -1309,4 +1309,30 @@ File ~\anaconda3\envs\DEEPLABCUT\lib\site-packages\PIL\ImageFile.py:473, in Stub
 OSError: cannot find loader for this HDF5 file
 ```
 </details>
+
+## 25/07/03
+
+**Done**
+- napariでファイルが開けないエラーを解消すべく.yamlファイルを触る
+  ->ファイル名・フォルダ名・bodypartsの数変更あたりが悪さしている感じ
+- labeled-dataを1個ずつ開いてみて開けるデータと開けないデータを把握
+  - DSC_3147_#1~2, 3177_#2
+  - ↑おそらく.h5 fileが破損していて、deleteしたらnapariで開けるようになった
+- fed movie(DSC_3177_#2~3, DSC_3180_#3)を比較用にlabeling
+  - 比較用のlabel(≠学習用のlabel)は正確性は多少犠牲にしても見えるところは全部点を打つようにする
+  - fedだとpreyが底に落ちていたり、manubriumが大きくてmouthやbaseが追いにくいから学習データに入れたくないんだよな
+- starvedのモデル(shuffle1,3)をfed movieに適用してみた
+  - starved同様、隣のtentacleと混ざっちゃう。底に落ちてるpreyにも反応してそう
+  - manubrium_baseがdetectできてない
+- 本当はpredictionにおけるlikelihoodとlabelの対応関係/妥当性を見たかったけど、判断基準が見つからない。
+  - `hist_filtered`を見る限り、50px以内に前後フレームの誤差は収まっていそう
+- [NIBBのAI解析室が出している解説](https://aifacility.nibb.ac.jp/deeplabcut)を発見
+
+
+## 25/07/04
+
+**Done**
+- likelihoodグラフからp-cutoffを決めるための参考資料を発見>[How do you decide what p-cutoff value is optimal?](https://forum.image.sc/t/basic-questions-on-the-user-guide/38975)
+- [Deeplabcut-Wiki](https://deepwiki.com/DeepLabCut/DeepLabCut/2-project-lifecycle)発見
+- 
 
