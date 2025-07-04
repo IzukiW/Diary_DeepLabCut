@@ -1,16 +1,23 @@
 
-- [25/06/12](#250612)
-- [2025/06/13](#20250613)
-- [25/06/15](#250615)
-- [25/06/16](#250616)
-- [25/06/20](#250620)
-- [25/06/23](#250623)
-    - [Intersection over Union(IoU)](#intersection-over-unioniou)
-    - [Average precision(AP)とAverage Recall(AR)](#average-precisionapとaverage-recallar)
-- [25/06/24](#250624)
-- [25/06/25](#250625)
-- [25/06/26](#250626)
-  - [Task after meeting](#task-after-meeting)
+1. [25/06/12](#250612)
+2. [25/06/13](#250613)
+3. [25/06/15](#250615)
+4. [25/06/16](#250616)
+5. [25/06/20](#250620)
+6. [25/06/23](#250623)
+      1. [Intersection over Union(IoU)](#intersection-over-unioniou)
+      2. [Average precision(AP)とAverage Recall(AR)](#average-precisionapとaverage-recallar)
+7. [25/06/24](#250624)
+8. [25/06/25](#250625)
+9. [25/06/26](#250626)
+   1. [Task after meeting](#task-after-meeting)
+10. [25/06/27](#250627)
+11. [25/06/28](#250628)
+12. [25/06/30](#250630)
+13. [25/07/01](#250701)
+14. [25/07/02](#250702)
+15. [25/07/03](#250703)
+16. [25/07/04](#250704)
 
 ---
 
@@ -109,7 +116,7 @@ FileNotFoundError: [WinError 2] The system cannot find the file specified
 (DEEPLABCUT)上のpipをuninstallしたらエラーが消えた。baseのpipとconflictしてたのだろうか？
 
 
-## 2025/06/13
+## 25/06/13
 
 昨日は通らなかった`nvcc -V`が通るようになった。
 ```
@@ -127,7 +134,7 @@ Build cuda_12.6.r12.6/compiler.34431801_0
 - GUIでlabeling(manubrium_baseだけできなかったけど...)
 
 installしたPytorch
-![PyTorch version](./fig/Screenshot_13-6-2025_1990_pytorch.org.jpeg)
+![PyTorch version](Screenshot_13-6-2025_1990_pytorch.org.jpeg)
 
 install後公式文書通りの応答が帰ってきた
 ```
@@ -206,11 +213,11 @@ deeplabcut.launch_dlc()
 ```
 python -m deeplabcut
 ```
-![DeepLabCutの起動画面](./fig/Screenshot_2025-06-13_201301.png)
+![DeepLabCutの起動画面](<Screenshot 2025-06-13 201301.png>)
 
 GUIにしたがってprojectを作成
 
-![alt text](./fig/Screenshot_2025-06-13_202642.png)
+![alt text](<Screenshot 2025-06-13 202642.png>)
 
 
 ## 25/06/15
@@ -232,12 +239,12 @@ GUIにしたがってprojectを作成
 Trainの様子
 
 
-![Training中](./fig/Screenshot_2025-06-15_222717.png)
+![Training中](<Screenshot 2025-06-15 222717.png>)
 
 ## 25/06/16
 **Done**
 - `C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\dlc-models-pytorch\iteration-0\Cladonema_starvedJun13-trainset95shuffle1\train\train.txt`でtraining中の出力を見る
-- [beginner-guide> analyze videp](https://deeplabcut.github.io/DeepLabCut/docs/beginner-guides/video-analysis.html)まで進んだ
+- [beginner-guide> analyze video](https://deeplabcut.github.io/DeepLabCut/docs/beginner-guides/video-analysis.html)まで進んだ
 - traind modelを3231_roi_#5に適用したが全然trackしていなかった
 - 一部のvideoを400×400にcrop。imagej使用
 
@@ -304,7 +311,7 @@ INFO:console:Saving filtered csv poses!
 </details>
 
 `Create video`
-<details><summary> analyzing progress (48s) </summary>
+<details><summary> creating progress (48s) </summary>
 
 ```py
 INFO:console:Filtering with median model C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\videos\DSC_3231_roi_#5.avi
@@ -329,7 +336,7 @@ INFO:console:Labeled videos created.
 **Done**
 - New project: "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\Cladonema_starved_crop-Vlad&Genta-2025-06-20" 作成
   <br> <- 400×400でcropした動画
-- DSC_3190~ DSC_3206#1~5を400×400でcrop->"Enhance Contrast"をかけて保存
+- DSC_3190~DSC_3206 #1~5を400×400でcrop->"Enhance Contrast"をかけて保存
 - DSC_3174_#1~3をlabel
 - DSC_3175/3176_#1~5をExtract frames済み
 
@@ -452,9 +459,9 @@ RMSE =\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y_i})^2}
 ## 25/06/25
 **Done**
 -  DSC_3205の_#1~2をlabel <br>
-  -> 25/06/25 13:27(JST)時点で計700framesがlabel済み。これで一回train回して時間と制度を測る。
+  -> 25/06/25 13:27(JST)時点で計700framesがlabel済み。これで一回train回して時間と精度を測る。
 - `Train network`を2回回す
-  - 1回目 665 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
+  - 1回目 635 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
   - 2回目
 
 
@@ -493,7 +500,7 @@ WARNING: QThread: Destroyed while thread is still running
 ```
 ⇒config.yamlのtrain_fraction値を0.95に直して実行したら出来た。shuffle1はtrain_fractionが0.95だったのに、shuffle2でconfig.yamlの値を0.9に変更し戻さずに実行したからerrorが出た模様。
 
-<img src="./fig/Screenshot_2025-06-25_195449.png" width="50%">
+<img src="Screenshot_2025-06-25_195449.png" width="50%">
 </details>
 
 analyze結果
@@ -689,8 +696,9 @@ Name: (0.9, 2, 100, -1, 0.6), dtype: float64
 - for task1&2: 新しいproject`Cladonema_starved_crop_tentacle20-Izuki-2025-06-26`を作成
   - `Cladonema_starved_crop-Vlad&Genta-2025-06-20`からextracted frameをコピー。使えるlabeled frameは残した
   - "tentacle_base1"は画像の一番下に位置するものと定める
+  - config_path= `"C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop_tentacle20-Izuki-2025-06-26\config.yaml"`
 - for task4&5: .h5 fileの使い方を勉強し、計算用に`for_h5_trial.ipynb`を作成
-  - pass "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\evaluation-results-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\for_h5_trial.ipynb"
+  - pass `"C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\evaluation-results-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\for_h5_trial.ipynb"`
 
 
 ## 25/06/27
@@ -1310,3 +1318,29 @@ OSError: cannot find loader for this HDF5 file
 ```
 </details>
 
+
+## 25/07/03
+
+**Done**
+- napariでファイルが開けないエラーを解消すべく.yamlファイルを触る
+  ->ファイル名・フォルダ名・bodypartsの数変更あたりが悪さしている感じ
+- labeled-dataを1個ずつ開いてみて開けるデータと開けないデータを把握
+  - DSC_3147_#1~2, 3177_#2
+  - ↑おそらく.h5 fileが破損していて、deleteしたらnapariで開けるようになった
+- fed movie(DSC_3177_#2~3, DSC_3180_#3)を比較用にlabeling
+  - 比較用のlabel(≠学習用のlabel)は正確性は多少犠牲にしても見えるところは全部点を打つようにする
+  - fedだとpreyが底に落ちていたり、manubriumが大きくてmouthやbaseが追いにくいから学習データに入れたくないんだよな
+- starvedのモデル(shuffle1,3)をfed movieに適用してみた
+  - starved同様、隣のtentacleと混ざっちゃう。底に落ちてるpreyにも反応してそう
+  - manubrium_baseがdetectできてない
+- 本当はpredictionにおけるlikelihoodとlabelの対応関係/妥当性を見たかったけど、判断基準が見つからない。
+  - `hist_filtered`を見る限り、50px以内に前後フレームの誤差は収まっていそう
+- [NIBBのAI解析室が出している解説](https://aifacility.nibb.ac.jp/deeplabcut)を発見
+
+
+## 25/07/04
+
+**Done**
+- likelihoodグラフからp-cutoffを決めるための参考資料を発見>[How do you decide what p-cutoff value is optimal?](https://forum.image.sc/t/basic-questions-on-the-user-guide/38975)
+- [Deeplabcut-Wiki](https://deepwiki.com/DeepLabCut/DeepLabCut/2-project-lifecycle)発見
+- 
