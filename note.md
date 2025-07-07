@@ -245,7 +245,7 @@ Trainの様子
 ## 25/06/16
 **Done**
 - `C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\dlc-models-pytorch\iteration-0\Cladonema_starvedJun13-trainset95shuffle1\train\train.txt`でtraining中の出力を見る
-- [beginner-guide> analyze videp](https://deeplabcut.github.io/DeepLabCut/docs/beginner-guides/video-analysis.html)まで進んだ
+- [beginner-guide> analyze video](https://deeplabcut.github.io/DeepLabCut/docs/beginner-guides/video-analysis.html)まで進んだ
 - traind modelを3231_roi_#5に適用したが全然trackしていなかった
 - 一部のvideoを400×400にcrop。imagej使用
 
@@ -353,7 +353,7 @@ INFO:console:Labeled videos created.
 **お勉強** <br>
 pytorchを用いた場合の"CombinedEvaluation-results.csv"の解釈について 
 
-![CombinedEvaluation-results.csv](Screenshot_2025-06-23_142033.png)
+![CombinedEvaluation-results.csv](./fig/Screenshot_2025-06-23_142033.png)
 
 <details><summary> `train mAP`や`train mAR`とは何ぞや？</summary>
 
