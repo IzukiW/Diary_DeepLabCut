@@ -18,6 +18,7 @@
 14. [25/07/02](#250702)
 15. [25/07/03](#250703)
 16. [25/07/04](#250704)
+17. [25/07/08](#250708)
 
 ---
 
@@ -1343,4 +1344,92 @@ OSError: cannot find loader for this HDF5 file
 **Done**
 - likelihoodグラフからp-cutoffを決めるための参考資料を発見>[How do you decide what p-cutoff value is optimal?](https://forum.image.sc/t/basic-questions-on-the-user-guide/38975)
 - [Deeplabcut-Wiki](https://deepwiki.com/DeepLabCut/DeepLabCut/2-project-lifecycle)発見
-- 
+
+
+## 25/07/08
+
+**Done**
+- 比較用に`2025-06-26`model-shuffle3でDSC_3219_#5とDSC_3231_#1をanalyze
+- ground truthを作るためDSC_3219_#5とDSC_3231_#1のlabeling
+- `Extract outlier frames`の使い方を学んだ
+- `2025-06-26`model-shuffle3でanalyzeしたfed movie(DSC_3177_#2~3, 3180_#3)で`Extract outlier frames`
+  - outlieralgorithm = 'jump'
+  - DSC_3177_#2~3からは20 framesずつ
+  - DSC_3180_#3からはなぜか40 framesがextractされてた
+- labelを修正したfed movieを`Merge dataset`し、shuffle4を作成
+- Train network-shuffle4 ->Evaluate network
+- fed movie(DSC_3203_#1~DSC_3213_#5)を400×400にcrop、enhance contrast(0.20)
+- model-shuffle4で先ほどmergeしたfed movie(DSC_3177_#3)をreanalyze
+- model-shuffle4でDSC_3191_#2, 4($\in$ training dataset, 10 tentacles)をreanalyze -> extract outlier frames -> refine label -> merge dataset
+  - `Merge dataset`をすると元の20frame分が`Extract outlier frames`の20frameに置き換わった
+
+
+
+<details><summary> extract outlier frames
+</summary>
+
+```py
+  2272it [00:14, 155.98it/s]
+  2241it [00:15, 148.42it/s]
+  2245it [00:14, 156.99it/s]
+  # ---中略---
+  INFO:console:Method
+  INFO:console:
+  INFO:console:jump
+  INFO:console:
+  INFO:console: found
+  INFO:console:
+  INFO:console:2245
+  INFO:console:
+  INFO:console: putative outlier frames.
+  INFO:console:Do you want to proceed with extracting
+  INFO:console:
+  INFO:console:20
+  INFO:console:
+  INFO:console: of those?
+  INFO:console:If this list is very large, perhaps consider changing the parameters (start, stop, p_bound, comparisonbodyparts) or use a different method.
+  INFO:console:Loading video...
+  INFO:console:Cropping coords:
+  INFO:console:
+  INFO:console:None
+  INFO:console:Duration of video [s]:
+  INFO:console:
+  INFO:console:89.93333333333334
+  INFO:console:
+  INFO:console:, recorded @
+  INFO:console:
+  INFO:console:30.0
+  INFO:console:
+  INFO:console:fps!
+  INFO:console:Overall # of frames:
+  INFO:console:
+  INFO:console:2698
+  INFO:console:
+  INFO:console:with (cropped) frame dimensions:
+  INFO:console:Kmeans-quantization based extracting of frames from
+  INFO:console:
+  INFO:console:0.0
+  INFO:console:
+  INFO:console: seconds to
+  INFO:console:
+  INFO:console:89.93
+  INFO:console:
+  INFO:console: seconds.
+  INFO:console:Extracting and downsampling...
+  INFO:console:
+  INFO:console:2245
+  INFO:console:
+  INFO:console: frames from the video.
+  INFO:console:Kmeans clustering ... (this might take a while)
+  INFO:console:Let's select frames indices:
+  INFO:console:
+  INFO:console:[976, 2489, 1004, 1793, 1099, 1271, 1449, 1082, 2246, 568, 1249, 691, 1430, 340, 1602, 1035, 636, 823, 271, 540]
+  INFO:console:Attempting to create a symbolic link of the video ...
+  INFO:console:Created the symlink of C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_tentacle20-Izuki-2025-06-26\labeled-data_forAnalyze\DSC_3177_roi_trial2_crop.avi to C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_tentacle20-Izuki-2025-06-26\videos\DSC_3177_roi_trial2_crop.avi
+  INFO:console:New videos were added to the project! Use the function 'extract_frames' to select frames for labeling.
+  INFO:console:The outlier frames are extracted. They are stored in the subdirectory labeled-data\DSC_3177_roi_trial2_crop.
+  INFO:console:Once you extracted frames for all videos, use 'refine_labels' to manually correct the labels.
+```
+</details>
+
+a
