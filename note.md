@@ -1,24 +1,25 @@
 
-1. [25/06/12](#250612)
-2. [25/06/13](#250613)
-3. [25/06/15](#250615)
-4. [25/06/16](#250616)
-5. [25/06/20](#250620)
-6. [25/06/23](#250623)
-      1. [Intersection over Union(IoU)](#intersection-over-unioniou)
-      2. [Average precision(AP)とAverage Recall(AR)](#average-precisionapとaverage-recallar)
-7. [25/06/24](#250624)
-8. [25/06/25](#250625)
-9. [25/06/26](#250626)
-   1. [Task after meeting](#task-after-meeting)
-10. [25/06/27](#250627)
-11. [25/06/28](#250628)
-12. [25/06/30](#250630)
-13. [25/07/01](#250701)
-14. [25/07/02](#250702)
-15. [25/07/03](#250703)
-16. [25/07/04](#250704)
-17. [25/07/08](#250708)
+
+- [25/06/12](#250612)
+- [25/06/13](#250613)
+- [25/06/15](#250615)
+- [25/06/16](#250616)
+- [25/06/20](#250620)
+- [25/06/23](#250623)
+    - [Intersection over Union(IoU)](#intersection-over-unioniou)
+    - [Average precision(AP)とAverage Recall(AR)](#average-precisionapとaverage-recallar)
+- [25/06/24](#250624)
+- [25/06/25](#250625)
+- [25/06/26](#250626)
+  - [Task after meeting](#task-after-meeting)
+- [25/06/27](#250627)
+- [25/06/28](#250628)
+- [25/06/30](#250630)
+- [25/07/01](#250701)
+- [25/07/02](#250702)
+- [25/07/03](#250703)
+- [25/07/04](#250704)
+- [25/07/08](#250708)
 
 ---
 
@@ -353,7 +354,7 @@ INFO:console:Labeled videos created.
 **お勉強** <br>
 pytorchを用いた場合の"CombinedEvaluation-results.csv"の解釈について 
 
-![CombinedEvaluation-results.csv](Screenshot_2025-06-23_142033.png)
+![CombinedEvaluation-results.csv](./fig/Screenshot_2025-06-23_142033.png)
 
 <details><summary> `train mAP`や`train mAR`とは何ぞや？</summary>
 
@@ -1433,3 +1434,4 @@ OSError: cannot find loader for this HDF5 file
 </details>
 
 a
+
