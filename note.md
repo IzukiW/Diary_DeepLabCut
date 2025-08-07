@@ -1344,3 +1344,16 @@ OSError: cannot find loader for this HDF5 file
 - [Deeplabcut-Wiki](https://deepwiki.com/DeepLabCut/DeepLabCut/2-project-lifecycle)発見
 - 
 
+
+## 25/07/08
+
+**Done**
+- 比較用に`2025-06-26`model-shuffle3でDSC_3219_#5とDSC_3231_#1をanalyze
+- ground truthを作るためDSC_3219_#5とDSC_3231_#1のlabeling
+
+## 25/08/07
+
+**memo**
+- 速度は変位÷時間(fpsや動画の情報から持ってくる)で算出
+- 角度はmanubrium - tentacle1ラインを始線にとってmouthとの角度を計算、でいいのかな
+- 角速度は$\Delta \theta /dt$で
