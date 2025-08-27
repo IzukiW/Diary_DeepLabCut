@@ -1,6 +1,7 @@
 
+
 - [25/06/12](#250612)
-- [25/06/13](#20250613)
+- [25/06/13](#250613)
 - [25/06/15](#250615)
 - [25/06/16](#250616)
 - [25/06/20](#250620)
@@ -18,7 +19,7 @@
 - [25/07/02](#250702)
 - [25/07/03](#250703)
 - [25/07/04](#250704)
-
+- [25/07/08](#250708)
 
 ---
 
@@ -135,7 +136,7 @@ Build cuda_12.6.r12.6/compiler.34431801_0
 - GUIでlabeling(manubrium_baseだけできなかったけど...)
 
 installしたPytorch
-![PyTorch version](./fig/Screenshot_13-6-2025_1990_pytorch.org.jpeg)
+![PyTorch version](Screenshot_13-6-2025_1990_pytorch.org.jpeg)
 
 install後公式文書通りの応答が帰ってきた
 ```
@@ -214,11 +215,11 @@ deeplabcut.launch_dlc()
 ```
 python -m deeplabcut
 ```
-![DeepLabCutの起動画面](./fig/Screenshot_2025-06-13_201301.png)
+![DeepLabCutの起動画面](<Screenshot 2025-06-13 201301.png>)
 
 GUIにしたがってprojectを作成
 
-![alt text](./fig/Screenshot_2025-06-13_202642.png)
+![alt text](<Screenshot 2025-06-13 202642.png>)
 
 
 ## 25/06/15
@@ -240,7 +241,7 @@ GUIにしたがってprojectを作成
 Trainの様子
 
 
-![Training中](./fig/Screenshot_2025-06-15_222717.png)
+![Training中](<Screenshot 2025-06-15 222717.png>)
 
 ## 25/06/16
 **Done**
@@ -312,7 +313,7 @@ INFO:console:Saving filtered csv poses!
 </details>
 
 `Create video`
-<details><summary> analyzing progress (48s) </summary>
+<details><summary> creating progress (48s) </summary>
 
 ```py
 INFO:console:Filtering with median model C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\videos\DSC_3231_roi_#5.avi
@@ -337,7 +338,7 @@ INFO:console:Labeled videos created.
 **Done**
 - New project: "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved-Vlad&Genta-2025-06-13\Cladonema_starved_crop-Vlad&Genta-2025-06-20" 作成
   <br> <- 400×400でcropした動画
-- DSC_3190~ DSC_3206#1~5を400×400でcrop->"Enhance Contrast"をかけて保存
+- DSC_3190~DSC_3206 #1~5を400×400でcrop->"Enhance Contrast"をかけて保存
 - DSC_3174_#1~3をlabel
 - DSC_3175/3176_#1~5をExtract frames済み
 
@@ -460,9 +461,9 @@ RMSE =\sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y_i})^2}
 ## 25/06/25
 **Done**
 -  DSC_3205の_#1~2をlabel <br>
-  -> 25/06/25 13:27(JST)時点で計700framesがlabel済み。これで一回train回して時間と制度を測る。
+  -> 25/06/25 13:27(JST)時点で計700framesがlabel済み。これで一回train回して時間と精度を測る。
 - `Train network`を2回回す
-  - 1回目 665 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
+  - 1回目 635 for training, 35 for test. 200 epochs. 1h34m43s. test RMSE=1.34. train RMSE=5.91.
   - 2回目
 
 
@@ -501,7 +502,7 @@ WARNING: QThread: Destroyed while thread is still running
 ```
 ⇒config.yamlのtrain_fraction値を0.95に直して実行したら出来た。shuffle1はtrain_fractionが0.95だったのに、shuffle2でconfig.yamlの値を0.9に変更し戻さずに実行したからerrorが出た模様。
 
-<img src="./fig/Screenshot_2025-06-25_195449.png" width="50%">
+<img src="Screenshot_2025-06-25_195449.png" width="50%">
 </details>
 
 analyze結果
@@ -697,8 +698,9 @@ Name: (0.9, 2, 100, -1, 0.6), dtype: float64
 - for task1&2: 新しいproject`Cladonema_starved_crop_tentacle20-Izuki-2025-06-26`を作成
   - `Cladonema_starved_crop-Vlad&Genta-2025-06-20`からextracted frameをコピー。使えるlabeled frameは残した
   - "tentacle_base1"は画像の一番下に位置するものと定める
+  - config_path= `"C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop_tentacle20-Izuki-2025-06-26\config.yaml"`
 - for task4&5: .h5 fileの使い方を勉強し、計算用に`for_h5_trial.ipynb`を作成
-  - pass "C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\evaluation-results-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\for_h5_trial.ipynb"
+  - pass `"C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_crop-Vlad&Genta-2025-06-20\evaluation-results-pytorch\iteration-0\Cladonema_starved_cropJun20-trainset95shuffle1\for_h5_trial.ipynb"`
 
 
 ## 25/06/27
@@ -1318,6 +1320,7 @@ OSError: cannot find loader for this HDF5 file
 ```
 </details>
 
+
 ## 25/07/03
 
 **Done**
@@ -1342,7 +1345,95 @@ OSError: cannot find loader for this HDF5 file
 **Done**
 - likelihoodグラフからp-cutoffを決めるための参考資料を発見>[How do you decide what p-cutoff value is optimal?](https://forum.image.sc/t/basic-questions-on-the-user-guide/38975)
 - [Deeplabcut-Wiki](https://deepwiki.com/DeepLabCut/DeepLabCut/2-project-lifecycle)発見
-- 
+
+
+## 25/07/08
+
+**Done**
+- 比較用に`2025-06-26`model-shuffle3でDSC_3219_#5とDSC_3231_#1をanalyze
+- ground truthを作るためDSC_3219_#5とDSC_3231_#1のlabeling
+- `Extract outlier frames`の使い方を学んだ
+- `2025-06-26`model-shuffle3でanalyzeしたfed movie(DSC_3177_#2~3, 3180_#3)で`Extract outlier frames`
+  - outlieralgorithm = 'jump'
+  - DSC_3177_#2~3からは20 framesずつ
+  - DSC_3180_#3からはなぜか40 framesがextractされてた
+- labelを修正したfed movieを`Merge dataset`し、shuffle4を作成
+- Train network-shuffle4 ->Evaluate network
+- fed movie(DSC_3203_#1~DSC_3213_#5)を400×400にcrop、enhance contrast(0.20)
+- model-shuffle4で先ほどmergeしたfed movie(DSC_3177_#3)をreanalyze
+- model-shuffle4でDSC_3191_#2, 4($\in$ training dataset, 10 tentacles)をreanalyze -> extract outlier frames -> refine label -> merge dataset
+  - `Merge dataset`をすると元の20frame分が`Extract outlier frames`の20frameに置き換わった
+
+
+
+<details><summary> extract outlier frames
+</summary>
+
+```py
+  2272it [00:14, 155.98it/s]
+  2241it [00:15, 148.42it/s]
+  2245it [00:14, 156.99it/s]
+  # ---中略---
+  INFO:console:Method
+  INFO:console:
+  INFO:console:jump
+  INFO:console:
+  INFO:console: found
+  INFO:console:
+  INFO:console:2245
+  INFO:console:
+  INFO:console: putative outlier frames.
+  INFO:console:Do you want to proceed with extracting
+  INFO:console:
+  INFO:console:20
+  INFO:console:
+  INFO:console: of those?
+  INFO:console:If this list is very large, perhaps consider changing the parameters (start, stop, p_bound, comparisonbodyparts) or use a different method.
+  INFO:console:Loading video...
+  INFO:console:Cropping coords:
+  INFO:console:
+  INFO:console:None
+  INFO:console:Duration of video [s]:
+  INFO:console:
+  INFO:console:89.93333333333334
+  INFO:console:
+  INFO:console:, recorded @
+  INFO:console:
+  INFO:console:30.0
+  INFO:console:
+  INFO:console:fps!
+  INFO:console:Overall # of frames:
+  INFO:console:
+  INFO:console:2698
+  INFO:console:
+  INFO:console:with (cropped) frame dimensions:
+  INFO:console:Kmeans-quantization based extracting of frames from
+  INFO:console:
+  INFO:console:0.0
+  INFO:console:
+  INFO:console: seconds to
+  INFO:console:
+  INFO:console:89.93
+  INFO:console:
+  INFO:console: seconds.
+  INFO:console:Extracting and downsampling...
+  INFO:console:
+  INFO:console:2245
+  INFO:console:
+  INFO:console: frames from the video.
+  INFO:console:Kmeans clustering ... (this might take a while)
+  INFO:console:Let's select frames indices:
+  INFO:console:
+  INFO:console:[976, 2489, 1004, 1793, 1099, 1271, 1449, 1082, 2246, 568, 1249, 691, 1430, 340, 1602, 1035, 636, 823, 271, 540]
+  INFO:console:Attempting to create a symbolic link of the video ...
+  INFO:console:Created the symlink of C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_tentacle20-Izuki-2025-06-26\labeled-data_forAnalyze\DSC_3177_roi_trial2_crop.avi to C:\Users\satie\Desktop\izuki_temp\Cladonema_starved_tentacle20-Izuki-2025-06-26\videos\DSC_3177_roi_trial2_crop.avi
+  INFO:console:New videos were added to the project! Use the function 'extract_frames' to select frames for labeling.
+  INFO:console:The outlier frames are extracted. They are stored in the subdirectory labeled-data\DSC_3177_roi_trial2_crop.
+  INFO:console:Once you extracted frames for all videos, use 'refine_labels' to manually correct the labels.
+```
+</details>
+
+a
 
 
 ## 25/07/08
